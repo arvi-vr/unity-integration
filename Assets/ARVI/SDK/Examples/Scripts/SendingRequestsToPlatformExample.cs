@@ -64,7 +64,7 @@ public class SendingRequestsToPlatformExample : MonoBehaviour
         Integration.ActivateInGameCommand("COMMAND_TEST_ACTIVATE").OnComplete(
             (response) => {
                 if (response.Success)
-                    Debug.Log("Test command activation succedded.");
+                    Debug.Log("Test command activation succeeded.");
                 else
                     Debug.LogWarning(string.Format("Test command activation failed. Error code: {0}. Error message: {1}", response.Error.Code, response.Error.Message));
             });
