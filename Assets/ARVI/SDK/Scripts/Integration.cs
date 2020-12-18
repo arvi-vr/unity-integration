@@ -43,7 +43,7 @@
 
     public static class Integration
     {
-        private const int SDK_INTEGRATION_VERSION = 0;
+        private const int SDK_INTEGRATION_VERSION = 1;
 
         public delegate void PlatformMessageReceivedHandler(PlatformMessage message);
         public static event PlatformMessageReceivedHandler PlatformMessageReceived;
