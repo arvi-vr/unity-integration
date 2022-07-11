@@ -7,6 +7,7 @@
     {
         Unknown = 0,
         Default = 1,
+        Data = 2
     }
 
     /// <summary>
@@ -101,6 +102,8 @@
 
             switch (responseType)
             {
+                case ResponseType.Data:
+                    return new DataResponse(api_response, responseType);
                 default:
                     return new Response(api_response, responseType);
             }

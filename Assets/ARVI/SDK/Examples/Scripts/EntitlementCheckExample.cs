@@ -7,7 +7,7 @@ public class EntitlementCheckExample : MonoBehaviour
     private bool exitOnFailure = true;
 
     protected virtual void Awake()
-    {        
+    {
         // Initialize integration API
         if (Integration.Initialize())
             Debug.Log(string.Format("ARVI SDK {0} initialized", Integration.Version));

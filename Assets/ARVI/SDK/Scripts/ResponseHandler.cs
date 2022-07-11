@@ -19,6 +19,11 @@
 
         protected virtual void OnApplicationQuit()
         {
+#if UNITY_EDITOR
+            Requests.FinalizeRequests(false);
+#else
+            Requests.FinalizeRequests(true);
+#endif
             Requests.Clear();
         }
     }

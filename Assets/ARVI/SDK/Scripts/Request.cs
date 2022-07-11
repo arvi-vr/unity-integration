@@ -29,7 +29,14 @@
         private readonly bool isValid = true;
         private readonly string errorMessage = "";
 
-        public Request(ulong id) : base(id) { }
+        public Request(ulong id) : base(id)
+        {
+            if (id == 0)
+            {
+                isValid = false;
+                errorMessage = Errors.UNKNOWN_ERROR;
+            }
+        }
 
         public Request(string errorMessage) : base(0)
         {
@@ -74,6 +81,16 @@
     {
         private static readonly object requestsLock = new object();
         private static readonly Dictionary<ulong, Request> requests = new Dictionary<ulong, Request>();
+
+        public static void InitializeRequests()
+        {
+            API.Requests_Initialize();
+        }
+
+        public static void FinalizeRequests(bool waitForComplete)
+        {
+            API.Requests_Finalize(waitForComplete);
+        }
 
         /// <summary>
         /// Clears the list of RequestID-to-Request associations

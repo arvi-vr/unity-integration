@@ -137,6 +137,7 @@
         private static readonly IntPtr[] api_messages = new IntPtr[MESSAGE_BUFFER_SIZE];
         private static int api_messages_count = 0;
         private static Integration.PlatformMessageReceivedHandler messageReceivedCallback = null;
+        private static Integration.PlatformEventReceivedHandler eventReceivedCallback = null;
 
         public static bool InitializeMessages()
         {
@@ -155,11 +156,28 @@
         {
             api_messages_count = api_messages.Length;
             if (API.Messages_Get(api_messages, ref api_messages_count) && (api_messages_count > 0))
+            {
                 for (int i = 0; i < api_messages_count; ++i)
                 {
-                    HandleMessage(new PlatformMessage(api_messages[i]));
+                    if (API.Message_GetIsInternalMessage(api_messages[i]))
+                    {
+                        IntPtr events;
+                        if (API.Message_HandleInternalMessage(api_messages[i], out events))
+                        {
+                            int eventsCount = API.EventList_GetCount(events);
+                            for (int eventIndex = 0; eventIndex < eventsCount; ++eventIndex)
+                            {
+                                IntPtr @event = API.EventList_GetEvent(events, eventIndex);
+                                HandleEvent(new PlatformEvent(@event));
+                            }
+                            API.EventList_Free(events);
+                        }
+                    }
+                    else
+                        HandleMessage(new PlatformMessage(api_messages[i]));
                     API.Message_Free(api_messages[i]);
                 }
+            }
         }
 
         /// <summary>
@@ -169,6 +187,15 @@
         public static void OnMessageReceived(Integration.PlatformMessageReceivedHandler callback)
         {
             messageReceivedCallback = callback;
+        }
+
+        /// <summary>
+        /// Sets the method to be executed when received new platform event
+        /// </summary>
+        /// <param name="callback">Callback method</param>
+        public static void OnEventReceived(Integration.PlatformEventReceivedHandler callback)
+        {
+            eventReceivedCallback = callback;
         }
 
         /// <summary>
@@ -184,6 +211,12 @@
         {
             if (messageReceivedCallback != null)
                 messageReceivedCallback.Invoke(message);
+        }
+
+        private static void HandleEvent(PlatformEvent @event)
+        {
+            if (eventReceivedCallback != null)
+                eventReceivedCallback.Invoke(@event);
         }
     }
 }

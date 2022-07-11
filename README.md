@@ -7,4 +7,4 @@ This Integration SDK requires [Unity 2017.4 or newer](//unity3d.com/get-unity/do
 The latest unity package and release notes are available from the [releases](//github.com/arvi-vr/unity-integration/releases) page. You can also clone and use the `arvi-vr/unity-integration` git repository directly in a Unity project.
 
 ## Have aye questions?
-If you still have any questions join our [Discord](https://discord.gg/DQHrdaS9pc).
+If you still have any questions contact our [Support](mailto:vr.support@arvilab.com)

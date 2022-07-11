@@ -18,6 +18,10 @@ public class ReceivingMessagesFromPlatformExample : MonoBehaviour
         Integration.PlayerPositionRequest += HandlePlayerPositionRequest;
         // Subscribe to messages from the platform
         Integration.PlatformMessageReceived += HandleMessageFromPlatform;
+        // Subscribe to "Player name changed" event
+        Integration.PlayerNameChanged += HandlePlayerNameChanged;
+        // Subscribe to "Player dominant hand changed" event
+        Integration.PlayerDominantHandChanged += HandlePlayerDominantHandChanged;
     }
 
     protected virtual void OnDisable()
@@ -28,6 +32,10 @@ public class ReceivingMessagesFromPlatformExample : MonoBehaviour
         Integration.PlayerPositionRequest -= HandlePlayerPositionRequest;
         // Unsubscribe from messages from platform
         Integration.PlatformMessageReceived -= HandleMessageFromPlatform;
+        // Unsubscribe from "Player name changed" event
+        Integration.PlayerNameChanged -= HandlePlayerNameChanged;
+        // Unsubscribe from "Player dominant hand changed" event
+        Integration.PlayerDominantHandChanged -= HandlePlayerDominantHandChanged;
     }
 
     protected virtual void HandleTimeLeftRequest(out int seconds)
@@ -66,6 +74,16 @@ public class ReceivingMessagesFromPlatformExample : MonoBehaviour
             default:
                 return;
         }
+    }
+
+    protected virtual void HandlePlayerNameChanged(string name)
+    {
+        Debug.Log(string.Format("Player's name changed to \"{0}\"", name));
+    }
+
+    protected virtual void HandlePlayerDominantHandChanged(DominantHand hand)
+    {
+        Debug.Log(string.Format("Player's dominant hand changed to \"{0}\"", hand));
     }
 
     private void PrintMessage(PlatformMessage message)

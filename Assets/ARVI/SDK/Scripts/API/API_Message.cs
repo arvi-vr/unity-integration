@@ -102,6 +102,23 @@
         internal static extern bool Message_GetData(IntPtr message, [In, Out] byte[] data, ref int size);
 
         /// <summary>
+        /// Checks if message is internal
+        /// </summary>
+        /// <param name="message">Message pointer</param>
+        /// <returns>True if message is internal</returns>
+        [DllImport(LIB_ARVI_DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern bool Message_GetIsInternalMessage(IntPtr message);
+
+        /// <summary>
+        /// Handles internal message
+        /// </summary>
+        /// <param name="message">Message pointer</param>
+        /// <param name="events">Pointer to events associated with message</param>
+        /// <returns>True if internal message was handled</returns>
+        [DllImport(LIB_ARVI_DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern bool Message_HandleInternalMessage(IntPtr message, out IntPtr events);
+
+        /// <summary>
         /// Sets the response data for message
         /// </summary>
         /// <param name="message">Message pointer</param>

@@ -114,4 +114,83 @@ public class SendingRequestsToPlatformExample : MonoBehaviour
                     Debug.LogWarning(string.Format("Tracking message failed. Error code: {0}. Error message: {1}", response.Error.Code, response.Error.Message));
             });
     }
+
+    public virtual void SetSessionData()
+    {
+        // Set some session-related data that will be saved throughout the entire gaming session
+        Integration.SetSessionData("string_key", "Hello, world!").OnComplete(
+            (response) => {
+                if (response.Success)
+                    Debug.Log("string_key set successfully");
+                else
+                    Debug.LogWarning(string.Format("Failed to set string_key. Error code: {0}. Error message: {1}", response.Error.Code, response.Error.Message));
+            });
+
+        Integration.SetSessionData("int_key", 123).OnComplete(
+            (response) => {
+                if (response.Success)
+                    Debug.Log("int_key set successfully");
+                else
+                    Debug.LogWarning(string.Format("Failed to set int_key. Error code: {0}. Error message: {1}", response.Error.Code, response.Error.Message));
+            });
+    }
+
+    public virtual void GetSessionData()
+    {
+        // Set some session-related data that will be saved throughout the entire gaming session
+        string stringValue;
+        if (Integration.TryGetSessionData("string_key", out stringValue))
+            Debug.Log("string_key: " + stringValue);
+        else
+            Debug.LogWarning("string_key key not exists");
+
+        int intValue;
+        if (Integration.TryGetSessionData("int_key", out intValue))
+            Debug.Log("int_key: " + intValue);
+        else
+            Debug.LogWarning("int_key key not exists");
+    }
+
+    public void GetUISettings()
+    {
+        string stringValue;
+        if (Integration.TryGetUISettings("GAMEMODE", out stringValue))
+            Debug.Log("GAMEMODE: " + stringValue);
+        else
+            Debug.LogWarning("GAMEMODE not found in UI Settings");
+
+        int intValue;
+        if (Integration.TryGetUISettings("ROUNDDURATION", out intValue))
+            Debug.Log("ROUNDDURATION: " + intValue);
+        else
+            Debug.LogWarning("ROUNDDURATION not found in UI Settings");
+    }
+
+    public virtual void SetPlayerName()
+    {
+        var oldName = Integration.PlayerName;
+
+        Integration.SetPlayerName("Demo Player").OnComplete(
+            (response) =>
+            {
+                if (response.Success)
+                    Debug.Log(string.Format("Player name was successfully changed from \"{0}\" to \"{1}\"", oldName, Integration.PlayerName));
+                else
+                    Debug.LogWarning(string.Format("Failed to set player name. Error code: {0}. Error message: {1}", response.Error.Code, response.Error.Message));
+            });
+    }
+
+    public virtual void SetPlayerDominantHand()
+    {
+        var oldDominantHand = Integration.PlayerDominantHand;
+
+        Integration.SetPlayerDominantHand(DominantHand.Right).OnComplete(
+            (response) =>
+            {
+                if (response.Success)
+                    Debug.Log(string.Format("Dominant hand was successfully changed from \"{0}\" to \"{1}\"", oldDominantHand, Integration.PlayerDominantHand));
+                else
+                    Debug.LogWarning(string.Format("Failed to set player dominant hand. Error code: {0}. Error message: {1}", response.Error.Code, response.Error.Message));
+            });
+    }
 }
