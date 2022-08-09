@@ -116,12 +116,14 @@
             }
         }
 
-        private const int SDK_INTEGRATION_VERSION = 2;
+        private const int SDK_INTEGRATION_VERSION = 3;
 
         #region "Known messages"
         private const string MSG_TIMELEFT = "TIMELEFT";
         private const string MSG_POSITION = "POSITION";
         #endregion
+
+        private static readonly CultureInfo invariantCulture;
 
         /// <summary>
         /// Initializes integration API
@@ -789,7 +791,7 @@
         }
 
         /// <summary>
-        /// Gets UI setings by name
+        /// Gets UI settings by name
         /// </summary>
         /// <param name="name">UI setting name</param>
         /// <param name="value">UI setting string value</param>
@@ -813,7 +815,7 @@
         }
 
         /// <summary>
-        /// Gets UI setings by name
+        /// Gets UI settings by name
         /// </summary>
         /// <param name="name">UI setting name</param>
         /// <param name="value">UI setting int value</param>
@@ -839,6 +841,7 @@
         static Integration()
         {
             Initialized = false;
+            invariantCulture = CultureInfo.InvariantCulture;
         }
 
         private static string GetPlayerName()
@@ -1036,7 +1039,7 @@
                 {
                     int seconds;
                     TimeLeftRequest.Invoke(out seconds);
-                    response = seconds.ToString(CultureInfo.InvariantCulture);
+                    response = seconds.ToString(invariantCulture);
                 }
                 catch { }
             return response;
@@ -1052,7 +1055,7 @@
                     Vector3 playerForward;
                     Vector3 playerUp;
                     PlayerPositionRequest.Invoke(out playerPosition, out playerForward, out playerUp);
-                    response = string.Format(
+                    response = string.Format(invariantCulture,
                         "{{" +
                             "\"player\":{{" +
                                 "\"position\":{{\"x\":{0:0.###},\"y\":{1:0.###},\"z\":{2:0.###}}}," +
