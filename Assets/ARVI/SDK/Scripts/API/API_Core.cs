@@ -68,6 +68,15 @@
         internal static extern ulong ActivateInGameCommand([MarshalAs(UnmanagedType.LPWStr)] string activationMessage);
 
         /// <summary>
+        /// Activates multiple in-game commands at once
+        /// </summary>
+        /// <param name="activationMessages">Activation messages</param>
+        /// <returns>Associated Request ID</returns>
+        /// <remarks>Limitations: no more than 10 times per second and 100 times per minute. Message length should not exceed 2048 chars</remarks>
+        [DllImport(LIB_ARVI_DLL_NAME, CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern ulong ActivateInGameCommands([In, Out] string[] activationMessages, int count);
+
+        /// <summary>
         /// Deactivates in-game command. If several commands have the same deactivation message, then they will all be deactivated
         /// </summary>
         /// <param name="deactivationMessage">Deactivation message</param>
@@ -75,6 +84,15 @@
         /// <remarks>Limitations: no more than 10 times per second and 100 times per minute. Message length should not exceed 128 chars</remarks>
         [DllImport(LIB_ARVI_DLL_NAME, CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
         internal static extern ulong DeactivateInGameCommand([MarshalAs(UnmanagedType.LPWStr)] string deactivationMessage);
+
+        /// <summary>
+        /// Deactivates multiple in-game commands at once
+        /// </summary>
+        /// <param name="deactivationMessages">Deactivation messages</param>
+        /// <returns>Associated Request ID</returns>
+        /// <remarks>Limitations: no more than 10 times per second and 100 times per minute. Message length should not exceed 2048 chars</remarks>
+        [DllImport(LIB_ARVI_DLL_NAME, CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
+        internal static extern ulong DeactivateInGameCommands([In, Out] string[] deactivationMessages, int count);
 
         /// <summary>
         /// Sends text message to platform

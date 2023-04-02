@@ -53,6 +53,8 @@
 
     public static class Integration
     {
+        private const int SDK_INTEGRATION_VERSION = 4;
+
         #region Events
         public delegate void PlatformMessageReceivedHandler(PlatformMessage message);
         public static event PlatformMessageReceivedHandler PlatformMessageReceived;
@@ -72,6 +74,7 @@
         public static event PlatformPlayerDominantHandChangedHandler PlayerDominantHandChanged;
         #endregion
 
+        #region Properties
         /// <value>Gets if the integration API initialized and ready to use</value>
         public static bool Initialized { get; private set; }
 
@@ -115,16 +118,14 @@
                 return string.Format("{0}.{1}", Marshal.PtrToStringUni(API.GetSDKVersion()), SDK_INTEGRATION_VERSION);
             }
         }
-
-        private const int SDK_INTEGRATION_VERSION = 3;
+        #endregion
 
         #region "Known messages"
         private const string MSG_TIMELEFT = "TIMELEFT";
         private const string MSG_POSITION = "POSITION";
         #endregion
 
-        private static readonly CultureInfo invariantCulture;
-
+        #region Methods
         /// <summary>
         /// Initializes integration API
         /// </summary>
@@ -349,9 +350,30 @@
         }
 
         /// <summary>
+        /// Activates multiple in-game commands at once
+        /// </summary>
+        /// <param name="activationMessages">Activation messages</param>
+        /// <returns>Queued request</returns>
+        /// <remarks>Limitations: no more than 10 times per second and 100 times per minute. Message length should not exceed 2048 chars</remarks>
+        public static Request<Response> ActivateInGameCommands(string[] activationMessages)
+        {
+            try
+            {
+                if (Initialized)
+                    return new Request<Response>(API.ActivateInGameCommands(activationMessages, activationMessages.Length));
+                else
+                    throw new Exception(Errors.INTEGRATION_NOT_INITIALIZED);
+            }
+            catch (Exception ex)
+            {
+                return Request<Response>.ConstructInvalid(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Deactivates in-game command. If several commands have the same deactivation message, then they will all be deactivated
         /// </summary>
-        /// <param name="deactivationMessage">Activation message</param>
+        /// <param name="deactivationMessage">Deactivation message</param>
         /// <returns>Queued request</returns>
         /// <remarks>Limitations: no more than 10 times per second and 100 times per minute. Message length should not exceed 128 chars</remarks>
         public static Request<Response> DeactivateInGameCommand(string deactivationMessage)
@@ -360,6 +382,27 @@
             {
                 if (Initialized)
                     return new Request<Response>(API.DeactivateInGameCommand(deactivationMessage));
+                else
+                    throw new Exception(Errors.INTEGRATION_NOT_INITIALIZED);
+            }
+            catch (Exception ex)
+            {
+                return Request<Response>.ConstructInvalid(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Deactivates multiple in-game commands at once
+        /// </summary>
+        /// <param name="deactivationMessages">Deactivation messages</param>
+        /// <returns>Queued request</returns>
+        /// <remarks>Limitations: no more than 10 times per second and 100 times per minute. Message length should not exceed 2048 chars</remarks>
+        public static Request<Response> DeactivateInGameCommands(string[] deactivationMessages)
+        {
+            try
+            {
+                if (Initialized)
+                    return new Request<Response>(API.DeactivateInGameCommands(deactivationMessages, deactivationMessages.Length));
                 else
                     throw new Exception(Errors.INTEGRATION_NOT_INITIALIZED);
             }
@@ -837,6 +880,9 @@
             }
             return success;
         }
+        #endregion
+
+        private static readonly CultureInfo invariantCulture;
 
         static Integration()
         {
