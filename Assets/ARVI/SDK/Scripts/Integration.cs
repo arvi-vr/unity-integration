@@ -152,11 +152,21 @@
         /// <returns>Initialized status</returns>
         public static bool Initialize()
         {
+            return Initialize(IntegrationSettings.AppKey);
+        }
+
+        /// <summary>
+        /// Initializes integration API
+        /// </summary>
+        /// <param name="appKey">Game App Key</param>
+        /// <returns>Initialized status</returns>
+        public static bool Initialize(string appKey)
+        {
             if (!Initialized)
             {
                 try
                 {
-                    AppKey = IntegrationSettings.AppKey;
+                    AppKey = appKey;
                     if (!string.IsNullOrEmpty(AppKey))
                     {
                         if (PlatformMessages.InitializeMessages())
