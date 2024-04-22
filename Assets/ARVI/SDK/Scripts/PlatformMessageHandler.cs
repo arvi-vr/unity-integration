@@ -6,7 +6,11 @@
     {
         protected virtual void Awake()
         {
+#if UNITY_2023_1_OR_NEWER
+            if (FindAnyObjectByType<PlatformMessageHandler>() != this)
+#else
             if (FindObjectOfType<PlatformMessageHandler>() != this)
+#endif
                 Destroy(gameObject);
             else
                 DontDestroyOnLoad(gameObject);

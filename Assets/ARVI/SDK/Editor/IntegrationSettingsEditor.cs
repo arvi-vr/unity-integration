@@ -19,7 +19,7 @@
                 appKey = "";
         }
 
-        [MenuItem("ARVI/Integration/Settings")]
+        [MenuItem("ARVI/Integration/Settings", false, 1)]
         public static void EditSettings()
         {
             Selection.activeObject = IntegrationSettings.Instance;

@@ -186,7 +186,7 @@
             }
         }
 
-        [MenuItem("ARVI/Integration/Check For Update")]
+        [MenuItem("ARVI/Integration/Check For Update", false, 2)]
         static void ManualUpdateCheck()
         {
             if (versionInfoRequest == null)

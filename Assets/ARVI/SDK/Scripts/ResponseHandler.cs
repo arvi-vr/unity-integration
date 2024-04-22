@@ -6,7 +6,11 @@
     {
         protected virtual void Awake()
         {
+#if UNITY_2023_1_OR_NEWER
+            if (FindAnyObjectByType<ResponseHandler>() != this)
+#else
             if (FindObjectOfType<ResponseHandler>() != this)
+#endif
                 Destroy(gameObject);
             else
                 DontDestroyOnLoad(gameObject);

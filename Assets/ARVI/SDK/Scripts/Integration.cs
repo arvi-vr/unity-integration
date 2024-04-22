@@ -31,6 +31,20 @@
         Any = 3
     }
 
+    public enum PlayAreaCheckingMode : int
+    {
+        Auto = 0,
+        Enabled = 1,
+        Disabled = 2
+    }
+
+    public enum PlayAreaOutOfBoundsMode : int
+    {
+        Auto = 0,
+        Block = 1,
+        Ignore = 2
+    }
+
     public enum ErrorCode : int
     {
         Unknown = -1,
@@ -53,7 +67,7 @@
 
     public static class Integration
     {
-        private const int SDK_INTEGRATION_VERSION = 4;
+        private const int SDK_INTEGRATION_VERSION = 5;
 
         #region Events
         public delegate void PlatformMessageReceivedHandler(PlatformMessage message);
@@ -95,6 +109,12 @@
 
         /// <value>Gets if the game should track cord twisting</value>
         public static bool ShouldApplicationTrackCordTwisting { get; private set; }
+
+        /// <value>Play Area checking mode</value>
+        public static PlayAreaCheckingMode PlayAreaCheckingMode { get; private set; }
+
+        /// <value>Play Area out of bounds mode</value>
+        public static PlayAreaOutOfBoundsMode PlayAreaOutOfBoundsMode { get; private set; }
 
         /// <value>Unique game session identifier</value>
         public static string SessionID { get; private set; }
@@ -222,12 +242,23 @@
                 IsApplicationInTrialMode = GetIsApplicationInTrialMode();
                 // Initialize cord twisting tracking
                 ShouldApplicationTrackCordTwisting = GetShouldApplicationTrackCordTwisting();
+                // Initialize play area
+                int playAreaCheckingModeValue;
+                if (API.TryGetPlayAreaCheckingMode(out playAreaCheckingModeValue))
+                    PlayAreaCheckingMode = Enum.IsDefined(typeof(PlayAreaCheckingMode), playAreaCheckingModeValue) ? (PlayAreaCheckingMode)playAreaCheckingModeValue : PlayAreaCheckingMode.Auto;
+                else
+                    PlayAreaCheckingMode = PlayAreaCheckingMode.Auto;
+                int playAreaOutOfBoundsModeValue;
+                if (API.TryGetPlayAreaOutOfBoundsMode(out playAreaOutOfBoundsModeValue))
+                    PlayAreaOutOfBoundsMode = Enum.IsDefined(typeof(PlayAreaOutOfBoundsMode), playAreaOutOfBoundsModeValue) ? (PlayAreaOutOfBoundsMode)playAreaOutOfBoundsModeValue : PlayAreaOutOfBoundsMode.Auto;
+                else
+                    PlayAreaOutOfBoundsMode = PlayAreaOutOfBoundsMode.Auto;
 
                 return true;
             }
             else
             {
-                Debug.LogWarning(string.Format("<b><color=red>Warning!</color></b> Failed to initialize session variables: {0}. Is VRP Client running?", Marshal.PtrToStringUni(API.SessionVariables_GetErrorMessage())));
+                Debug.LogWarning(string.Format("<b><color=red>Warning!</color></b> Failed to initialize session variables: {0}. Is VRP Client or API Tester running?", Marshal.PtrToStringUni(API.SessionVariables_GetErrorMessage())));
                 return false;
             }
         }
