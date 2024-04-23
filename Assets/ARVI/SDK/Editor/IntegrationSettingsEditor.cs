@@ -13,10 +13,7 @@
         protected virtual void OnEnable()
         {
             appKeyProperty = serializedObject.FindProperty("appKey");
-            if (appKeyProperty != null)
-                appKey = appKeyProperty.stringValue;
-            else
-                appKey = "";
+            appKey = appKeyProperty != null ? appKeyProperty.stringValue : string.Empty;
         }
 
         [MenuItem("ARVI/Integration/Settings", false, 1)]

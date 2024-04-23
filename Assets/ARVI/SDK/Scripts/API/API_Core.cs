@@ -71,6 +71,7 @@
         /// Activates multiple in-game commands at once
         /// </summary>
         /// <param name="activationMessages">Activation messages</param>
+        /// <param name="count">Length of activationMessages array</param>
         /// <returns>Associated Request ID</returns>
         /// <remarks>Limitations: no more than 10 times per second and 100 times per minute. Message length should not exceed 2048 chars</remarks>
         [DllImport(LIB_ARVI_DLL_NAME, CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
@@ -89,6 +90,7 @@
         /// Deactivates multiple in-game commands at once
         /// </summary>
         /// <param name="deactivationMessages">Deactivation messages</param>
+        /// <param name="count">Length of deactivationMessages array</param>
         /// <returns>Associated Request ID</returns>
         /// <remarks>Limitations: no more than 10 times per second and 100 times per minute. Message length should not exceed 2048 chars</remarks>
         [DllImport(LIB_ARVI_DLL_NAME, CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
@@ -138,7 +140,7 @@
         /// <param name="data">Data value</param>
         /// <param name="size">Data size in bytes</param>
         /// <returns>Associated Request ID</returns>
-        /// <remarks>Limitations: name length should not exceed 256 chars. Max size of all sesion data variables (including name size) should not exceed 100Mb</remarks>
+        /// <remarks>Limitations: name length should not exceed 256 chars. Max size of all session data variables (including name size) should not exceed 100Mb</remarks>
         [DllImport(LIB_ARVI_DLL_NAME, CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
         internal static extern ulong SetSessionData([MarshalAs(UnmanagedType.LPWStr)] string name, [In] byte[] data, int size);
 
@@ -155,6 +157,7 @@
         /// <summary>
         /// Gets the UI Settings data
         /// </summary>
+        /// <param name="name">Name of UI Setting</param>
         /// <param name="buffer">Array of chars that you should allocate</param>
         /// <param name="size">Before calling this function, the caller sets the value to the number of chars in the array. Upon return, the value contains the number of data chars</param>
         /// <returns>True in case of success call</returns>
@@ -226,6 +229,7 @@
         /// Sets the new player name and send it to platform
         /// </summary>
         /// <param name="name">Player name</param>
+        /// <param name="changed">True if new player name successfully changed</param>
         /// <returns>Associated Request ID</returns>
         /// <remarks>Limitations: name length should not exceed 128 chars</remarks>
         [DllImport(LIB_ARVI_DLL_NAME, CharSet = CharSet.Unicode, ExactSpelling = true, CallingConvention = CallingConvention.Cdecl)]
@@ -243,6 +247,7 @@
         /// Sets the new player dominant hand and send it to platform
         /// </summary>
         /// <param name="hand">Dominant hand value</param>
+        /// <param name="changed">True if dominant hand value successfully changed</param>
         /// <returns>Associated Request ID</returns>
         [DllImport(LIB_ARVI_DLL_NAME, CallingConvention = CallingConvention.Cdecl)]
         internal static extern ulong SetPlayerDominantHand(int hand, out bool changed);

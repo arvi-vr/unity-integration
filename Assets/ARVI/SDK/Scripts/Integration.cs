@@ -923,19 +923,19 @@
         }
         #endregion
 
-        private static readonly CultureInfo invariantCulture;
+        private static readonly CultureInfo InvariantCulture;
 
         static Integration()
         {
             Initialized = false;
-            invariantCulture = CultureInfo.InvariantCulture;
+            InvariantCulture = CultureInfo.InvariantCulture;
         }
 
         private static string GetPlayerName()
         {
-            string result = string.Empty;
+            var result = string.Empty;
             char[] chars = null;
-            int size = 0;
+            var size = 0;
             if (!API.TryGetPlayerName(chars, ref size) && (size > 0))
             {
                 chars = new char[size];
@@ -966,10 +966,10 @@
 
         private static bool TryGetPlayerID(out string playerID)
         {
-            bool success = false;
+            var success = false;
             playerID = string.Empty;
             char[] chars = null;
-            int size = 0;
+            var size = 0;
             if (!API.TryGetPlayerID(chars, ref size) && (size > 0))
             {
                 chars = new char[size];
@@ -984,10 +984,10 @@
 
         private static bool TryGetSessionID(out string sessionID)
         {
-            bool success = false;
+            var success = false;
             sessionID = string.Empty;
             char[] chars = null;
-            int size = 0;
+            var size = 0;
             if (!API.TryGetSessionID(chars, ref size) && (size > 0))
             {
                 chars = new char[size];
@@ -1002,10 +1002,10 @@
 
         private static bool TryGetSessionLanguage(out string sessionLanguage)
         {
-            bool success = false;
+            var success = false;
             sessionLanguage = string.Empty;
             char[] chars = null;
-            int size = 0;
+            var size = 0;
             if (!API.TryGetSessionLanguage(chars, ref size) && (size > 0))
             {
                 chars = new char[size];
@@ -1020,10 +1020,10 @@
 
         private static bool TryGetServerIP(out string serverIP)
         {
-            bool success = false;
+            var success = false;
             serverIP = string.Empty;
             char[] chars = null;
-            int size = 0;
+            var size = 0;
             if (!API.TryGetServerIP(chars, ref size) && (size > 0))
             {
                 chars = new char[size];
@@ -1050,12 +1050,12 @@
         {
             if (Initialized)
             {
-                bool success = false;
+                var success = false;
                 variable = null;
-                int size = 0;
+                var size = 0;
                 if (!API.TryGetSessionData(name, null, ref size) && (size > 0))
                 {
-                    byte[] bytes = new byte[size];
+                    var bytes = new byte[size];
                     if (API.TryGetSessionData(name, bytes, ref size))
                     {
                         variable = new SessionVariable(bytes);
@@ -1073,7 +1073,7 @@
             if (message == null)
                 return;
             // Check for known messages
-            string messageName = message.Name.ToUpperInvariant();
+            var messageName = message.Name.ToUpperInvariant();
             switch(messageName)
             {
                 case MSG_TIMELEFT:
@@ -1120,13 +1120,13 @@
 
         private static string HandleTimeLeftMessage()
         {
-            string response = "";
+            var response = string.Empty;
             if (TimeLeftRequest != null)
                 try
                 {
                     int seconds;
                     TimeLeftRequest.Invoke(out seconds);
-                    response = seconds.ToString(invariantCulture);
+                    response = seconds.ToString(InvariantCulture);
                 }
                 catch { }
             return response;
@@ -1134,7 +1134,7 @@
 
         private static string HandlePlayerPositionMessage()
         {
-            string response = "";
+            var response = string.Empty;
             if (PlayerPositionRequest != null)
                 try
                 {
@@ -1142,7 +1142,7 @@
                     Vector3 playerForward;
                     Vector3 playerUp;
                     PlayerPositionRequest.Invoke(out playerPosition, out playerForward, out playerUp);
-                    response = string.Format(invariantCulture,
+                    response = string.Format(InvariantCulture,
                         "{{" +
                             "\"player\":{{" +
                                 "\"position\":{{\"x\":{0:0.###},\"y\":{1:0.###},\"z\":{2:0.###}}}," +

@@ -32,11 +32,11 @@
                     {
                         instance = CreateInstance<IntegrationSettings>();
 #if UNITY_EDITOR
-                        string resourcesDirectoryPath = Path.Combine(Application.dataPath, "Resources");
+                        var resourcesDirectoryPath = Path.Combine(Application.dataPath, "Resources");
                         if (!Directory.Exists(resourcesDirectoryPath))
                             UnityEditor.AssetDatabase.CreateFolder("Assets", "Resources");
 
-                        string fullPath = Path.Combine(Path.Combine("Assets", "Resources"), "ARVIIntegrationSettings.asset");
+                        var fullPath = Path.Combine(Path.Combine("Assets", "Resources"), "ARVIIntegrationSettings.asset");
                         UnityEditor.AssetDatabase.CreateAsset(instance, fullPath);
 #endif
                     }

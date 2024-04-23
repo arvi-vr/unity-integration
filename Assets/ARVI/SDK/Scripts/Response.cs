@@ -45,11 +45,11 @@
         public static Response[] Dequeue()
         {
             Response[] responses = null;
-            int count = api_responses.Length;
+            var count = api_responses.Length;
             if (API.Responses_Get(api_responses, ref count) && (count > 0))
             {
                 responses = new Response[count];
-                for (int i = 0; i < count; ++i)
+                for (var i = 0; i < count; ++i)
                 {
                     responses[i] = Response.Construct(api_responses[i]);
                     API.Response_Free(api_responses[i]);

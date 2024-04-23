@@ -123,8 +123,8 @@
         /// </summary>
         /// <param name="message">Message pointer</param>
         /// <param name="contentType">Value of HTTP "Content-Type" header</param>
-        /// <param name="responseCode">Value of HTTP response status code</param>
-        /// <param name="responseText">Value of HTTP response status text</param>
+        /// <param name="statusCode">Value of HTTP response status code</param>
+        /// <param name="statusText">Value of HTTP response status text</param>
         /// <param name="data">Array of response data bytes</param>
         /// <param name="size">Size of the data array</param>
         /// <returns>True in case of success call</returns>

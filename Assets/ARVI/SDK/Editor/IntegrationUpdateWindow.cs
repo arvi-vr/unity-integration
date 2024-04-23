@@ -21,7 +21,7 @@
 
         public static IntegrationUpdateWindow Show(Version version, string description, DateTime date, string versionURL, bool isNewVersion)
         {
-            IntegrationUpdateWindow window = GetWindow<IntegrationUpdateWindow>(true, WINDOW_TITLE, true);
+            var window = GetWindow<IntegrationUpdateWindow>(true, WINDOW_TITLE, true);
 
             window.position = new Rect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
             window.CenterOnMainWindow();
@@ -73,9 +73,9 @@
                 }
 
                 GUILayout.FlexibleSpace();
-                using (EditorGUI.ChangeCheckScope changeCheckScope = new EditorGUI.ChangeCheckScope())
+                using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                 {
-                    bool toggleValue = GUILayout.Toggle(IntegrationUpdateChecker.ShouldCheckForUpdates, "Automatically check for updates");
+                    var toggleValue = GUILayout.Toggle(IntegrationUpdateChecker.ShouldCheckForUpdates, "Automatically check for updates");
                     if (changeCheckScope.changed)
                         IntegrationUpdateChecker.ShouldCheckForUpdates = toggleValue;
                 }
@@ -85,9 +85,9 @@
             {
                 GUILayout.BeginHorizontal();
                 GUILayout.FlexibleSpace();
-                using (EditorGUI.ChangeCheckScope changeCheckScope = new EditorGUI.ChangeCheckScope())
+                using (var changeCheckScope = new EditorGUI.ChangeCheckScope())
                 {
-                    bool toggleValue = GUILayout.Toggle(IntegrationUpdateChecker.ShouldCheckForUpdates, "Automatically check for updates");
+                    var toggleValue = GUILayout.Toggle(IntegrationUpdateChecker.ShouldCheckForUpdates, "Automatically check for updates");
                     if (changeCheckScope.changed)
                         IntegrationUpdateChecker.ShouldCheckForUpdates = toggleValue;
                 }
@@ -95,7 +95,7 @@
             }
         }
 
-        private void InitializeStyles()
+        private static void InitializeStyles()
         {
             if (largeStyle == null)
             {

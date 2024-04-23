@@ -43,7 +43,7 @@
             Name = Marshal.PtrToStringUni(API.Message_GetName(api_message));
             var paramsCount = API.Message_GetParamsCount(api_message);
             Params = new NameValueCollection(paramsCount);
-            for (int i = 0; i < paramsCount; ++i)
+            for (var i = 0; i < paramsCount; ++i)
                 Params.Add(Marshal.PtrToStringUni(API.Message_GetParamName(api_message, i)), Marshal.PtrToStringUni(API.Message_GetParamValue(api_message, i)));
             var dataSize = API.Message_GetDataSize(api_message);
             if (dataSize > 0)
@@ -117,7 +117,7 @@
             return API.Message_SetResponse(api_message, "text/plain", STATUS_CODE_ERROR, STATUS_TEXT_ERROR, buffer, buffer.Length);
         }
 
-        private MessageMethod GetMessageMethodFromString(string methodName)
+        private static MessageMethod GetMessageMethodFromString(string methodName)
         {
             switch (methodName.ToUpperInvariant())
             {
@@ -135,7 +135,7 @@
     {
         private const int MESSAGE_BUFFER_SIZE = 1024;
         private static readonly IntPtr[] api_messages = new IntPtr[MESSAGE_BUFFER_SIZE];
-        private static int api_messages_count = 0;
+        private static int api_messages_count;
         private static Integration.PlatformMessageReceivedHandler messageReceivedCallback = null;
         private static Integration.PlatformEventReceivedHandler eventReceivedCallback = null;
 

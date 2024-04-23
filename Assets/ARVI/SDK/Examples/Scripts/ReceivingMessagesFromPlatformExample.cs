@@ -76,9 +76,9 @@ public class ReceivingMessagesFromPlatformExample : MonoBehaviour
         }
     }
 
-    protected virtual void HandlePlayerNameChanged(string name)
+    protected virtual void HandlePlayerNameChanged(string playerName)
     {
-        Debug.Log(string.Format("Player's name changed to \"{0}\"", name));
+        Debug.Log(string.Format("Player's name changed to \"{0}\"", playerName));
     }
 
     protected virtual void HandlePlayerDominantHandChanged(DominantHand hand)
@@ -86,19 +86,19 @@ public class ReceivingMessagesFromPlatformExample : MonoBehaviour
         Debug.Log(string.Format("Player's dominant hand changed to \"{0}\"", hand));
     }
 
-    private void PrintMessage(PlatformMessage message)
+    private static void PrintMessage(PlatformMessage message)
     {
         // Message method (GET/POST) and name (e.g., "skip")
-        string messageInfo = string.Format("{0} message \"{1}\" received.", message.Method, message.Name);
+        var messageInfo = string.Format("{0} message \"{1}\" received.", message.Method, message.Name);
         // Message parameters (if available)
         if (message.Params.Count > 0)
         {
             messageInfo += " Parameters:";
-            for (int i = 0; i < message.Params.Count; ++i)
+            for (var i = 0; i < message.Params.Count; ++i)
                 messageInfo += string.Format(" {0} = {1};", message.Params.GetKey(i), message.Params.Get(i));
         }
         // Message data (if available)
-        string messageData = message.GetDataAsString();
+        var messageData = message.GetDataAsString();
         if (!string.IsNullOrEmpty(messageData))
             messageInfo += string.Format(" Data: {0}", messageData);
         // Print message info
