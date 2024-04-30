@@ -1,6 +1,6 @@
 {
 	"name": "com.arvi.sdk",
-	"version": "1.6.6",
+	"version": "1.6.7",
 	"description": "Use this plugin for integrating you game with ARVI VR platform.",
 	"displayName": "ARVI SDK",
 	"unity": "2017.4",
@@ -13,5 +13,6 @@
 		"name": "ARVI VR",
 		"email": "vr.support@arvilab.com",
 		"url": "https://vr.arvilab.com/"
-	}
+	},
+	"hideInEditor": false
 }
