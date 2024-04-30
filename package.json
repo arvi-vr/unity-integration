@@ -1,0 +1,16 @@
+{
+	"name": "com.arvi.sdk",
+	"version": "1.6.6",
+	"description": "Use this plugin for integrating you game with ARVI VR platform.",
+	"displayName": "ARVI SDK",
+	"unity": "2017.4",
+	"documentationUrl": "https://arvi-vr.github.io/integration-guide/tabs/integrations-unity/",
+	"keywords": [
+		"arvi",
+		"sdk"
+	],
+	"author": {
+		"name": "Illia Moiseikin",
+		"email": "i.moiseikin@arvilab.com"
+	},
+}
